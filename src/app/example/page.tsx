@@ -1,25 +1,31 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function Example() {
+  const [input, setInput] = useState("");
   const [text, setText] = useState("");
-  const [key, setKey] = useState("");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
 
   const handleClick = () => {
-    fetch("/api/example")
+    const params = new URLSearchParams({ input });
+    fetch(`/api/example?${params}`)
       .then((res) => res.json())
       .then((data) => {
         setText(data.text);
-        setKey(data.key);
       });
   };
 
   return (
     <div>
       <h1>Example</h1>
-      <button onClick={handleClick}>Click me</button>
+      <div>
+        <input type="text" onChange={handleChange} />
+        <button onClick={handleClick}>Click me</button>
+      </div>
       <div>text: {text}</div>
-      <div>key: {key}</div>
     </div>
   );
 }
