@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 
 export default function Example() {
   const [input, setInput] = useState("");
-  const [text, setText] = useState("");
+  const [response, setResponse] = useState<{ text: string; key: string }>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -14,7 +14,7 @@ export default function Example() {
     fetch(`/api/example?${params}`)
       .then((res) => res.json())
       .then((data) => {
-        setText(data.text);
+        setResponse(data);
       });
   };
 
@@ -25,7 +25,12 @@ export default function Example() {
         <input type="text" onChange={handleChange} />
         <button onClick={handleClick}>Click me</button>
       </div>
-      <div>text: {text}</div>
+      {response && (
+        <div>
+          <div>YourInput: {response.text}</div>
+          <div>ApiKey: {response.key}</div>
+        </div>
+      )}
     </div>
   );
 }
