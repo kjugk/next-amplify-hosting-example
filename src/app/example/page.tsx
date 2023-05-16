@@ -3,12 +3,14 @@ import { useState } from "react";
 
 export default function Example() {
   const [text, setText] = useState("");
+  const [key, setKey] = useState("");
 
   const handleClick = () => {
     fetch("/api/example")
       .then((res) => res.json())
       .then((data) => {
         setText(data.text);
+        setKey(data.key);
       });
   };
 
@@ -16,7 +18,8 @@ export default function Example() {
     <div>
       <h1>Example</h1>
       <button onClick={handleClick}>Click me</button>
-      <div>{text}</div>
+      <div>text: {text}</div>
+      <div>key: {key}</div>
     </div>
   );
 }
